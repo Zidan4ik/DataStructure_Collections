@@ -3,7 +3,6 @@ package interfaces_collections.realize.map;
 import interfaces_collections.interface_collections.MyMap;
 
 
-
 public class MyMapImp<S, I> implements MyMap {
 
     private Node<S, I>[] array;
@@ -28,7 +27,8 @@ public class MyMapImp<S, I> implements MyMap {
     @Override
     public void put(String key, Integer value) {
         if (checkSize()) {
-            increaseSize(this.array);
+//            increaseSize();
+            System.out.println("true");
         }
         int hashcode = hash(key);
         int index = indexFor(hashcode, array.length);
@@ -41,23 +41,24 @@ public class MyMapImp<S, I> implements MyMap {
     }
 
     private boolean checkSize() {
-        if(this.array.length==0){this.array=new Node[this.capacity];}
-        return count / array.length > loadFactor;
+        if (this.array.length == 0) {
+            this.array = new Node[this.capacity];
+        }
+        return count / this.array.length > this.loadFactor;
     }
 
     //створюємо новий масив, де вже значення, що перезапишуться, будуть мати інші позиції
-    private void increaseSize(Node<S, I>[] array) {
-        Node<S, I>[] increasedArray = this.array;
-        this.array = new Node[increasedArray.length+20];
-
-        for(int i=0;i<increasedArray.length;i++){
-            Node node = increasedArray[i];
-            while(node!=null && node.next!=null){
-                addEntry(node.hash,node.key,node.value,indexFor(node.key.hashCode(),array.length));
-                node=node.next;
+    private void increaseSize() {
+        int newCapacity = this.array.length * 2;
+        Node<S, I>[] newArray = this.array;
+        this.count = 0;
+        this.array = new Node[newCapacity];
+        for (int i = 0; i < newArray.length; i++) {
+            if ((array[i]!=null && !array[i].equals(null)) && array[i].key != null) {
+                Node node = newArray[i];
+                put((String) node.key, (Integer) node.value);
             }
         }
-
     }
 
     @Override
@@ -97,10 +98,13 @@ public class MyMapImp<S, I> implements MyMap {
 
     <S, I> void addEntry(int hashcode, S key, I value, int index) {
         Node node = this.array[index];
+        if (node.key == null) {
+
+        }
         if (node.hash == hashcode && (node.key.equals(key) || node.key == key)) {
-            node.setHash(hashcode);
             node.setKey(key);
             node.setValue(value);
+            node.setHash(hashcode);
             this.array[index] = node;
         } else {
             array[index] = new Node(hashcode, key, value, node);
@@ -111,15 +115,15 @@ public class MyMapImp<S, I> implements MyMap {
     @Override
     public String toString() {
         String s = "{";
-        for(Node node: this.array){
+        for (Node node : this.array) {
             Node currentNode = node;
 
-            while(currentNode!=null && currentNode.next!=null){
+            while (currentNode != null && currentNode.next != null) {
                 s += currentNode + ", ";
-                currentNode=currentNode.getNext();
+                currentNode = currentNode.getNext();
             }
         }
-        return s.substring(0,s.length()-2) + "}";
+        return s.substring(0, s.length() - 2) + "}";
     }
 
     static public class Node<S, I> {
@@ -173,6 +177,12 @@ public class MyMapImp<S, I> implements MyMap {
         public Node(S key, I value) {
             this.key = key;
             this.value = value;
+        }
+
+        public Node(S key, I value, Node next) {
+            this.key = key;
+            this.value = value;
+            this.next = next;
         }
 
         @Override

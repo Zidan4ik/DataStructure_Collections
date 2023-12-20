@@ -22,9 +22,12 @@ public class MapMain {
         test1.put("christina",18);
         test1.put("dasha",2);
         test1.put("masha",2);
-        test1.put("vasya",2);
+        test1.put("markian",5);
+        test1.put("davyd",251);
+        test1.put("olexander",266);
+        test1.put("vasya",21);
 
-
+        System.out.println(test1.size());
         System.out.println(test1);
         System.out.println();
 
