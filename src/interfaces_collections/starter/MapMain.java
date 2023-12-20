@@ -19,8 +19,12 @@ public class MapMain {
         MyMap<String, Integer> test1 = new MyMapImp<>();
         test1.put("roma",3);
         test1.put("denys",2);
-        test1.put("christina",0);
+        test1.put("christina",18);
         test1.put("dasha",2);
+        test1.put("masha",2);
+        test1.put("vasya",2);
+
+
         System.out.println(test1);
         System.out.println();
 

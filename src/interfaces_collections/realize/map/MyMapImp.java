@@ -2,17 +2,17 @@ package interfaces_collections.realize.map;
 
 import interfaces_collections.interface_collections.MyMap;
 
-import java.util.Arrays;
+
 
 public class MyMapImp<S, I> implements MyMap {
 
     private Node<S, I>[] array;
     private int count;
-    private final int capacity = 16;
+    private final int capacity = 5;
     private final double loadFactor = 0.75;
 
     public MyMapImp() {
-        array = new Node[capacity];
+        array = new Node[0];
     }
 
     @Override
@@ -28,6 +28,7 @@ public class MyMapImp<S, I> implements MyMap {
     @Override
     public void put(String key, Integer value) {
         if (checkSize()) {
+            increaseSize(this.array);
         }
         int hashcode = hash(key);
         int index = indexFor(hashcode, array.length);
@@ -40,13 +41,22 @@ public class MyMapImp<S, I> implements MyMap {
     }
 
     private boolean checkSize() {
+        if(this.array.length==0){this.array=new Node[this.capacity];}
         return count / array.length > loadFactor;
     }
 
     //створюємо новий масив, де вже значення, що перезапишуться, будуть мати інші позиції
     private void increaseSize(Node<S, I>[] array) {
         Node<S, I>[] increasedArray = this.array;
-        this.array = new Node[array.length];
+        this.array = new Node[increasedArray.length+20];
+
+        for(int i=0;i<increasedArray.length;i++){
+            Node node = increasedArray[i];
+            while(node!=null && node.next!=null){
+                addEntry(node.hash,node.key,node.value,indexFor(node.key.hashCode(),array.length));
+                node=node.next;
+            }
+        }
 
     }
 
@@ -88,13 +98,14 @@ public class MyMapImp<S, I> implements MyMap {
     <S, I> void addEntry(int hashcode, S key, I value, int index) {
         Node node = this.array[index];
         if (node.hash == hashcode && (node.key.equals(key) || node.key == key)) {
+            node.setHash(hashcode);
             node.setKey(key);
             node.setValue(value);
             this.array[index] = node;
         } else {
-            array[index] = new Node(hashcode, key, value, node.getNext());
+            array[index] = new Node(hashcode, key, value, node);
+            System.out.println(array[index].next);
         }
-        System.out.println(node.next);
     }
 
     @Override
@@ -108,8 +119,7 @@ public class MyMapImp<S, I> implements MyMap {
                 currentNode=currentNode.getNext();
             }
         }
-        //s += array[i] + ", ";
-        return s + "}";
+        return s.substring(0,s.length()-2) + "}";
     }
 
     static public class Node<S, I> {
