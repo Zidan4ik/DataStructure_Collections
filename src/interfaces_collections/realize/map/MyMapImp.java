@@ -1,17 +1,15 @@
 package interfaces_collections.realize.map;
-
 import interfaces_collections.interface_collections.MyMap;
 
-
 public class MyMapImp<S, I> implements MyMap {
-
     private Node<S, I>[] array;
     private int count;
-    private final int capacity = 5;
+    private final int capacity = 16;
     private final double loadFactor = 0.75;
 
     public MyMapImp() {
-        array = new Node[0];
+        array = new Node[capacity];
+        this.count=0;
     }
 
     @Override
@@ -21,48 +19,64 @@ public class MyMapImp<S, I> implements MyMap {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        boolean isEmpty = false;
+        for (int i = 0; i < this.array.length; i++) {
+            if(this.array[i]!=null){
+                isEmpty=true;
+                break;
+            }
+        }
+        return isEmpty;
     }
 
     @Override
     public void put(String key, Integer value) {
         if (checkSize()) {
-//            increaseSize();
-            System.out.println("true");
+            System.out.println("size to increase: "+this.array.length);
+            increaseSize();
+            System.out.println("size after increase: "+this.array.length);
         }
         int hashcode = hash(key);
-        int index = indexFor(hashcode, array.length);
+        int index = findIndex(hashcode, array.length);
         if (this.array[index] == null) {
             this.array[index] = new Node<>();
         }
-        System.out.println("index: " + index);
+//        System.out.println("index: " + index);
         addEntry(hashcode, key, value, index);
         count++;
     }
 
     private boolean checkSize() {
-        if (this.array.length == 0) {
-            this.array = new Node[this.capacity];
-        }
-        return count / this.array.length > this.loadFactor;
+        return (double)this.count / (double) this.array.length > this.loadFactor;
     }
 
     //створюємо новий масив, де вже значення, що перезапишуться, будуть мати інші позиції
     private void increaseSize() {
-        int newCapacity = this.array.length * 2;
-        Node<S, I>[] newArray = this.array;
         this.count = 0;
+        Node<S, I>[] newArray = this.array;
+        int newCapacity = this.array.length * 2;
         this.array = new Node[newCapacity];
         for (int i = 0; i < newArray.length; i++) {
-            if ((array[i]!=null && !array[i].equals(null)) && array[i].key != null) {
-                Node node = newArray[i];
-                put((String) node.key, (Integer) node.value);
+            Node node = newArray[i];
+            while((node!=null) && (node.key != null && !node.key.equals(null))) {
+                if(node.key.equals("olexiy")){
+                    System.out.println(node.hash);
+                }
+                int index = findIndex(node.hash,this.array.length);
+
+            if(this.array[index]==null){
+                this.array[index]=new Node<>();
+            }
+            addEntry(node.hash,node.key,node.value,index);
+            this.count++;
+            node=node.next;
             }
         }
     }
 
     @Override
     public boolean remove(String key) {
+
         return false;
     }
 
@@ -72,8 +86,19 @@ public class MyMapImp<S, I> implements MyMap {
     }
 
     @Override
-    public Integer get(String key) {
-        return null;
+    public Integer get(String key) { //tyzhko napisaniy
+        Node node = new Node();
+        exit:
+        for (int i = 0; i < this.array.length; i++) {
+            node = this.array[i];
+            while((node!=null) && findIndex(hash(key),this.array.length)==i){ // визначення позиції елементу в масиві
+                if(node!=null && node.key.equals(key) && node.key==key){
+                    break exit;
+                }
+                node=node.next;
+            }
+        }
+        return findIndex(node.hash,this.array.length);
     }
 
     @Override
@@ -92,23 +117,19 @@ public class MyMapImp<S, I> implements MyMap {
         return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
     }
 
-    static int indexFor(int h, int length) {
+    static int findIndex(int h, int length) {
         return h & (length - 1);
     }
 
     <S, I> void addEntry(int hashcode, S key, I value, int index) {
         Node node = this.array[index];
-        if (node.key == null) {
-
-        }
+        if (node.key == null) {}
         if (node.hash == hashcode && (node.key.equals(key) || node.key == key)) {
-            node.setKey(key);
             node.setValue(value);
-            node.setHash(hashcode);
             this.array[index] = node;
         } else {
-            array[index] = new Node(hashcode, key, value, node);
-            System.out.println(array[index].next);
+            this.array[index] = new Node(hashcode, key, value, node);
+
         }
     }
 
@@ -119,7 +140,7 @@ public class MyMapImp<S, I> implements MyMap {
             Node currentNode = node;
 
             while (currentNode != null && currentNode.next != null) {
-                s += currentNode + ", ";
+                s += currentNode + "{"+findIndex(currentNode.hash, this.array.length)+"}, ";
                 currentNode = currentNode.getNext();
             }
         }

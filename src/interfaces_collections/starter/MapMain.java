@@ -20,16 +20,25 @@ public class MapMain {
         test1.put("roma",3);
         test1.put("denys",2);
         test1.put("christina",18);
-        test1.put("dasha",2);
-        test1.put("masha",2);
-        test1.put("markian",5);
-        test1.put("davyd",251);
-        test1.put("olexander",266);
-        test1.put("vasya",21);
+        test1.put("grigoryi",1);
+        test1.put("laska",123);
+        test1.put("dmytro",1);
+        test1.put("maksym",10);
+        test1.put("masha",-5);
+        test1.put("olexiy",33);
+        test1.put("andriy",82);
+        test1.put("ruslan",12);
+        test1.put("mykola",50);
+        test1.put("ivan",20);
+        test1.put("katya",101);
+        test1.put("katya123",101);
+
 
         System.out.println(test1.size());
         System.out.println(test1);
         System.out.println();
 
+        System.out.println(test1.get("denys"));
+        
     }
 }
