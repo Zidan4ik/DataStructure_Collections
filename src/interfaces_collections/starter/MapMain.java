@@ -4,41 +4,49 @@ import interfaces_collections.interface_collections.MyMap;
 import interfaces_collections.realize.map.MyMapImp;
 
 
+import java.sql.SQLOutput;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MapMain {
     public static void main(String[] args) {
-        Map<String,Integer> l = new HashMap<>();
-        l.put("1",2);
-        l.put("2",2);
-        l.put("christina",0);
-        l.put("dasha",2);
-
-        System.out.println(l);
-        MyMap<String, Integer> test1 = new MyMapImp<>();
-        test1.put("roma",3);
-        test1.put("denys",2);
-        test1.put("christina",18);
-        test1.put("grigoryi",1);
-        test1.put("laska",123);
-        test1.put("dmytro",1);
-        test1.put("maksym",10);
-        test1.put("masha",-5);
-        test1.put("olexiy",33);
-        test1.put("andriy",82);
-        test1.put("ruslan",12);
-        test1.put("mykola",50);
-        test1.put("ivan",20);
-        test1.put("katya",101);
-        test1.put("katya123",101);
-
-
-        System.out.println(test1.size());
-        System.out.println(test1);
+        /* *****Реалізація HashMap Interface***** */
+        MyMap<String, Integer> myMap = new MyMapImp<>();
+        System.out.println("Розмір масиву: "+myMap.size());
+        System.out.println("Перевірка на пустоту колекції: "+myMap.isEmpty());
+        myMap.put("roma",3);
+        myMap.put("denys",2);
+        myMap.put("christina",18);
+        myMap.put("grigoryi",1);
+        myMap.put("laska",123);
+        myMap.put("dmytro",1);
+        myMap.put("maksym",10);
+        myMap.put("masha",-5);
+        myMap.put("olexiy",33);
+        myMap.put("andriy",82);
+        myMap.put("ruslan",12);
+        myMap.put("mykola",50);
+        myMap.put("ivan",20);
+        myMap.put("katya",101);
+        myMap.put("katya123",101);
+        System.out.println("Розмір масиву: "+myMap.size());
+        System.out.println("Перевірка на пустоту колекції: "+myMap.isEmpty());
         System.out.println();
+        System.out.println("Отримання елементу по ключу: "+myMap.get("denys"));
+        System.out.println(myMap);
+        System.out.println();
+        System.out.println("Видалення елементу по ключу: "+myMap.remove("denys"));
+        System.out.println(myMap);
+        System.out.println("Розмір масиву: "+myMap.size());
+        System.out.println();
+        System.out.println("Отримання списку ключів з колекції: ");
+        System.out.println(Arrays.toString(myMap.keyArray()));
+        System.out.println("Отримання списку значень з колекції: ");
+        System.out.println(Arrays.toString(myMap.valueArray()));
 
-        System.out.println(test1.get("denys"));
-        
+        System.out.println("Очищення колекції: ");
+        myMap.clear();
+        System.out.println(myMap);
     }
 }

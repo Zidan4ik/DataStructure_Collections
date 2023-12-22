@@ -32,9 +32,9 @@ public class MyMapImp<S, I> implements MyMap {
     @Override
     public void put(String key, Integer value) {
         if (checkSize()) {
-            System.out.println("size to increase: "+this.array.length);
+            System.out.println("ємність масиву до збільшення: "+this.array.length);
             increaseSize();
-            System.out.println("size after increase: "+this.array.length);
+            System.out.println("ємність масиву після збільшення: "+this.array.length);
         }
         int hashcode = hash(key);
         int index = findIndex(hashcode, array.length);
@@ -59,9 +59,6 @@ public class MyMapImp<S, I> implements MyMap {
         for (int i = 0; i < newArray.length; i++) {
             Node node = newArray[i];
             while((node!=null) && (node.key != null && !node.key.equals(null))) {
-                if(node.key.equals("olexiy")){
-                    System.out.println(node.hash);
-                }
                 int index = findIndex(node.hash,this.array.length);
 
             if(this.array[index]==null){
@@ -76,13 +73,31 @@ public class MyMapImp<S, I> implements MyMap {
 
     @Override
     public boolean remove(String key) {
-
+        Node node = new Node();
+        Node previousNode = new Node();
+        for (int i = 0; i < this.array.length; i++) {
+            node = this.array[i];
+            while(node != null && findIndex(hash(node.key),this.array.length)==i){
+                if(node.key.equals(key)){
+                    if(previousNode!=null){
+                        previousNode.next=node.next;
+                    }else{
+                        this.array[i]=node.next;
+                    }
+                    this.count--;
+                    return true;
+                }
+                previousNode=node;
+                node=node.next;
+            }
+        }
         return false;
     }
 
     @Override
     public void clear() {
-
+        this.array = new Node[this.array.length];
+        this.count = 0;
     }
 
     @Override
@@ -103,12 +118,32 @@ public class MyMapImp<S, I> implements MyMap {
 
     @Override
     public String[] keyArray() {
-        return new String[0];
+        String [] keys = new String[this.count];
+        Node node;
+        int index = 0;
+        for (int i = 0; i < this.array.length; i++) {
+            node = this.array[i];
+            while(node !=null && (node.key!=null && !node.key.equals(null))){
+                keys[index++] = (String)node.key;
+                node = node.getNext();
+            }
+        }
+        return keys;
     }
 
     @Override
     public Integer[] valueArray() {
-        return new Integer[0];
+        Integer [] values = new Integer[this.count];
+        Node node;
+        int index = 0;
+        for (int i = 0; i < this.array.length; i++) {
+            node = this.array[i];
+            while(node !=null && (node.key!=null && !node.key.equals(null))){
+                values[index++] = (Integer) node.value;
+                node = node.getNext();
+            }
+        }
+        return values;
     }
 
 
@@ -144,7 +179,10 @@ public class MyMapImp<S, I> implements MyMap {
                 currentNode = currentNode.getNext();
             }
         }
-        return s.substring(0, s.length() - 2) + "}";
+        if(this.count>0) {return s.substring(0, s.length() - 2) + "}";}
+        else {
+            return "{}";
+        }
     }
 
     static public class Node<S, I> {
