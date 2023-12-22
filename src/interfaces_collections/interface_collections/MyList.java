@@ -1,4 +1,4 @@
-package interfaces_collections;
+package interfaces_collections.interface_collections;
 
 public interface MyList {
     int size();
