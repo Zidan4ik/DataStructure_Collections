@@ -12,18 +12,17 @@ public class MyLinkedListMain {
         System.out.println(myQueue.offer(3));
         System.out.println(myQueue.offer(4));
         System.out.println(myQueue.offer(5));
-//        System.out.println(myQueue.offer(6));
-//        System.out.println(myQueue.offer(7));
-//
-//        System.out.println("масив: "+ myQueue);
-//        System.out.println("видалення елементу: "+myQueue.poll());
-//        System.out.println("видалення елементу: "+myQueue.poll());
-//        System.out.println("видалення елементу: "+myQueue.poll());
-//        System.out.println("видалення елементу: "+myQueue.poll());
-//        System.out.println("видалення елементу: "+myQueue.poll());
-//        System.out.println("масив: "+myQueue);
-//        System.out.println("отримання першого елемента: "+myQueue.peek());
-//        System.out.println("масив: "+myQueue);
+        System.out.println(myQueue.offer(6));
+        System.out.println(myQueue.offer(7));
+
+        System.out.println("масив: "+ myQueue);
+        System.out.println("видалення елементу: "+myQueue.poll());
+        System.out.println("видалення елементу: "+myQueue.poll());
+        System.out.println("видалення елементу: "+myQueue.poll());
+
+        System.out.println("масив: "+myQueue);
+        System.out.println("отримання першого елемента: "+myQueue.peek());
+        System.out.println("масив: "+myQueue);
 
 
     }

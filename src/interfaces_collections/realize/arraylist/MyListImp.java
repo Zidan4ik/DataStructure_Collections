@@ -1,6 +1,6 @@
 
 
-package interfaces_collections.realize;
+package interfaces_collections.realize.arraylist;
 
 import interfaces_collections.interface_collections.MyList;
 

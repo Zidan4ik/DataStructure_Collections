@@ -68,11 +68,12 @@ public class MyMapImp<S, I> implements MyMap {
             node=node.next;
             }
         }
+
     }
 
     @Override
     public boolean remove(String key) {
-        Node node = new Node();
+        Node node;
         Node previousNode = new Node();
         for (int i = 0; i < this.array.length; i++) {
             node = this.array[i];
@@ -149,13 +150,13 @@ public class MyMapImp<S, I> implements MyMap {
     static final int hash(Object key) {
         int h;
         return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
-        // побітове виключення(XOR) допомагає розподілити біти по хеш-коду у всьому діапазоні 32 бітів, для зменшення колізій
+        // (h^h>>>16)побітове виключення(XOR) допомагає розподілити біти по хеш-коду у всьому діапазоні 32 бітів, для зменшення колізій
         // h >>> 16 - зсув на 16 позицій вліво для значення h(hashcode)
     }
 
     static int findIndex(int h, int length) {
         return h & (length - 1); // визначає індекс в межах нашого масиву
-        //використовується побітове 'I' для обрізання hashcode так що біти попадали в діапазон 'length'
+        // Використовується побітове 'I' для обрізання hashcode так що біти попадали в діапазон 'length'
     }
 
     <S, I> void addEntry(int hashcode, S key, I value, int index) {

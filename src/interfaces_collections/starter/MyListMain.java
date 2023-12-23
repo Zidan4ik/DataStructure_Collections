@@ -1,6 +1,6 @@
 package interfaces_collections.starter;
 
-import interfaces_collections.realize.MyListImp;
+import interfaces_collections.realize.arraylist.MyListImp;
 import interfaces_collections.interface_collections.MyList;
 
 public class MyListMain {
