@@ -53,14 +53,13 @@ public class MyMapImp<S, I> implements MyMap {
     //створюємо новий масив, де вже значення, що перезапишуться, будуть мати інші позиції
     private void increaseSize() {
         this.count = 0;
-        Node<S, I>[] newArray = this.array;
-        int newCapacity = this.array.length * 2;
+        Node<S, I>[] newArray = this.array; // зберігаємо поточний масив
+        int newCapacity = this.array.length * 2; // збільшення масиву
         this.array = new Node[newCapacity];
         for (int i = 0; i < newArray.length; i++) {
             Node node = newArray[i];
-            while((node!=null) && (node.key != null && !node.key.equals(null))) {
+            while((node!=null) && (node.key != null && !node.key.equals(null))) { // перебираємо всю структуру в одному елементі
                 int index = findIndex(node.hash,this.array.length);
-
             if(this.array[index]==null){
                 this.array[index]=new Node<>();
             }
@@ -77,8 +76,8 @@ public class MyMapImp<S, I> implements MyMap {
         Node previousNode = new Node();
         for (int i = 0; i < this.array.length; i++) {
             node = this.array[i];
-            while(node != null && findIndex(hash(node.key),this.array.length)==i){
-                if(node.key.equals(key)){
+            while(node != null && findIndex(hash(node.key),this.array.length)==i){ // перебираємо всі node за вказаним індексом
+                if(node.key.equals(key)){  // якщо key true, то видаляємо node і міняємо ссилки
                     if(previousNode!=null){
                         previousNode.next=node.next;
                     }else{
@@ -123,7 +122,7 @@ public class MyMapImp<S, I> implements MyMap {
         int index = 0;
         for (int i = 0; i < this.array.length; i++) {
             node = this.array[i];
-            while(node !=null && (node.key!=null && !node.key.equals(null))){
+            while(node !=null && (node.key!=null && !node.key.equals(null))){ // перебираємо структуру linkedlist в елементах
                 keys[index++] = (String)node.key;
                 node = node.getNext();
             }
@@ -138,7 +137,7 @@ public class MyMapImp<S, I> implements MyMap {
         int index = 0;
         for (int i = 0; i < this.array.length; i++) {
             node = this.array[i];
-            while(node !=null && (node.key!=null && !node.key.equals(null))){
+            while(node !=null && (node.key!=null && !node.key.equals(null))){// перебираємо структуру linkedlist в елементах
                 values[index++] = (Integer) node.value;
                 node = node.getNext();
             }
@@ -150,15 +149,17 @@ public class MyMapImp<S, I> implements MyMap {
     static final int hash(Object key) {
         int h;
         return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+        // побітове виключення(XOR) допомагає розподілити біти по хеш-коду у всьому діапазоні 32 бітів, для зменшення колізій
+        // h >>> 16 - зсув на 16 позицій вліво для значення h(hashcode)
     }
 
     static int findIndex(int h, int length) {
-        return h & (length - 1);
+        return h & (length - 1); // визначає індекс в межах нашого масиву
+        //використовується побітове 'I' для обрізання hashcode так що біти попадали в діапазон 'length'
     }
 
     <S, I> void addEntry(int hashcode, S key, I value, int index) {
         Node node = this.array[index];
-        if (node.key == null) {}
         if (node.hash == hashcode && (node.key.equals(key) || node.key == key)) {
             node.setValue(value);
             this.array[index] = node;

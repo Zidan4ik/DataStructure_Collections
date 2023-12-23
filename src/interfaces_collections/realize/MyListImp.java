@@ -37,15 +37,15 @@ public class MyListImp implements MyList {
 
     @Override
     public boolean contains(Integer object) {
-        boolean flag = false;
+        boolean isContains = false;
         for (int i = 0; i < this.index; i++) {
             if (!array[i].equals(null)) {
                 if (array[i].equals(object)) {
-                    flag = true;
+                    isContains = true;
                 }
             }
         }
-        return flag;
+        return isContains;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class MyListImp implements MyList {
 
         int length = this.array.length;
         Integer[] arrayNew;
-        if (this.index == this.array.length) { //перевірка для збільшення місткості масиву
+        if (this.index == this.array.length) {
             arrayNew = new Integer[length * 2];
             for (int i = 0; i < this.index; i++) {
                 arrayNew[i] = this.array[i];
@@ -69,7 +69,7 @@ public class MyListImp implements MyList {
     public void add(int index, Integer object) {
         int length = this.array.length;
         Integer[] arrayNew;
-        if (this.index == this.array.length) { //перевірка для збільшення місткості масиву
+        if (this.index == this.array.length) {
             arrayNew = new Integer[length * 2];
             for (int i = 0; i < this.index; i++) {
                 arrayNew[i] = this.array[i];
@@ -78,19 +78,15 @@ public class MyListImp implements MyList {
         }
 
         if (this.index < index) {
-            arrayNew = new Integer[length * 2];
-            for (int i = 0; i < this.index; i++) {
-                arrayNew[i] = this.array[i];
-            }
-            this.array = arrayNew;
+            this.array[this.index]=object;
         } else {
             for (int i = this.index; i > index; i--) {
                 this.array[i] = this.array[i - 1];
             }
-
             this.array[index] = object;
-            this.index++;
         }
+        this.index++;
+        System.out.println(this.array.length);
     }
 
     @Override

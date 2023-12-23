@@ -19,7 +19,7 @@ public class MyListMain {
         System.out.println(myList);
         myList.add(2,81);
         System.out.println(myList);
-        myList.add(1,301);
+        myList.add(100,301);
         System.out.println(myList);
 
         myList.add(3,102);
@@ -41,7 +41,7 @@ public class MyListMain {
 
         System.out.println("Дістаємо елемент по індексу 1: "+myList.get(1));
 //        System.out.println("Дістаємо елемент по індексу 10: "+myList.get(50));
-        System.out.println("Видалення елементу за значенням: "+myList.remove(1));
+        System.out.println("Видалення елементу за значенням: "+myList.remove(81));
         System.out.println(myList);
         System.out.println("Дістати індекси за значенням: ");
         System.out.println(myList.indexOf(3));
